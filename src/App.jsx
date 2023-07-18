@@ -1,12 +1,14 @@
 // import { useState } from 'react'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { incrementCount } from './store';
+import { incrementCount, updateName } from './store';
+
 
 function App() {
 
-  const dispatch = useDispatch();
-  const count = useSelector(state => state.value)
+  const dispatch = useDispatch(); // store.dispatch - issue a change to the state - uses an action
+  const count = useSelector(state => state.value) // retrieve the current value of the state
+  const name = useSelector(state => state.name)
 
   return (
     <>
@@ -16,6 +18,8 @@ function App() {
           count is {count}
         </button>
       </div>
+      <h1>{name}</h1>
+      <input onChange={(e) => dispatch(updateName(e.target.value))}></input>
     </>
   )
 }
