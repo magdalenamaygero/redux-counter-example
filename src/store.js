@@ -1,57 +1,68 @@
-simport { configureStore } from '@reduxjs/toolkit'
+// store.js
+import { configureStore } from '@reduxjs/toolkit';
 
-const initialState = { value: 0, name: '' }
+const initialState = {
+  value: 0,
+  name: '',
+  bookTypeCounts: {
+    Fiction: 0,
+    'Non-fiction': 0,
+    Mystery: 0,
+    'Historical Fiction': 0,
+    'Science fiction': 0,
+    'Short story': 0,
+    Poetry: 0,
+    Novel: 0,
+    'Graphic novel': 0,
+  },
+};
 
-// Actions are objects
-// type
-// payload (optional)
-
-// Action Creators return action objects
 export const incrementCount = () => {
   return {
-    type: 'counter/increment'
-  }
-}
+    type: 'counter/increment',
+  };
+};
 
 export const updateName = (name) => {
   return {
     type: 'name/update',
-    payload: name
-  }
-}
+    payload: name,
+  };
+};
 
-// The reducer returns the next state of the application
+export const incrementBookTypeCount = (bookType) => {
+  return {
+    type: 'bookType/increment',
+    payload: bookType,
+  };
+};
+
 function counterReducer(state = initialState, action) {
-  // Check to see if the reducer cares about this action
   if (action.type === 'counter/increment') {
-    // If so, make a copy of `state`
-    return {
-      ...state, // { value: 0, name: ''}
-      // and update the copy with the new value
-      value: state.value + 1  // { value: 1, name: ''}
-    }
-  }
-  else if (action.type === 'counter/reset') {
     return {
       ...state,
-      value: 0
-    }
-  }
-  else if (action.type === 'name/update') {
+      value: state.value + 1,
+    };
+  } else if (action.type === 'name/update') {
     return {
-      ...state, // { value: 0, name: ''}
-      // and update the copy with the new value
-      name: action.payload
+      ...state,
+      name: action.payload,
+    };
+  } else if (action.type === 'bookType/increment') {
+    if (state.bookTypeCounts.hasOwnProperty(action.payload)) {
+      return {
+        ...state,
+        bookTypeCounts: {
+          ...state.bookTypeCounts,
+          [action.payload]: state.bookTypeCounts[action.payload] + 1,
+        },
+      };
     }
   }
 
-  // otherwise return the existing state unchanged
-  return state
+  return state;
 }
 
-const store = configureStore({ reducer: counterReducer })
-
-// store.dispatch({ type: 'name/update', payload: 'ben' })
-store.dispatch(incrementCount());
+const store = configureStore({ reducer: counterReducer });
 
 export default store;
