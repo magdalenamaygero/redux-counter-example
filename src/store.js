@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+simport { configureStore } from '@reduxjs/toolkit'
 
 const initialState = { value: 0, name: '' }
 
